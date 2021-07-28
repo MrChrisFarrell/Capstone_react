@@ -58,4 +58,4 @@ const RegistrationForm = (props) => {
     );
 };
 
-export default RegistrationForm
+export default RegistrationForm;
