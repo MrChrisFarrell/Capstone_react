@@ -8,6 +8,7 @@ import PromotionForm from './PromotionForm/promotionForm';
 import CreateEmployeeForm from './CreateEmployee/createEmployeeForm';
 import AddCompanyForm from './AddCompany/addCompanyForm';
 import EmployeeHomePage from './EmployeeHomePage/employeeHomePage';
+import MapContainer from './Map/map';
 
 function App() {
   const [user, setUser] = useState({});
@@ -65,7 +66,7 @@ function App() {
     <div className="App">
       <Switch>
         <Route path="/addCompany" render={props => <AddCompanyForm {...props} user={user}/>}/>
-        <Route path="/employee" render={props => <EmployeeHomePage {...props} employee={employee}/>}/>
+        <Route path="/employee" render={props => <EmployeeHomePage {...props} GoogleMap={MapContainer} employee={employee}/>}/>
       </Switch>
     </div>
   );
