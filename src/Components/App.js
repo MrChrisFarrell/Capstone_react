@@ -9,12 +9,16 @@ import CreateEmployeeForm from './CreateEmployee/createEmployeeForm';
 import AddCompanyForm from './AddCompany/addCompanyForm';
 import EmployeeHomePage from './EmployeeHomePage/employeeHomePage';
 import MapContainer from './Map/map';
+import googleAPIKey from '../APIKeys/googleAPIKey';
 
 function App() {
   const [user, setUser] = useState({});
   const [userCompany, setUserCompany] = useState(null);
   const [invalidKey, setInvalidKey] = useState(true);
   const [employee, setEmployee] = useState(null);
+  const [ employeeLatLong, setEmployeeLatLong] = useState(null);
+  const [promotions, setPromotions] = useState(null);
+  const [compLatLongs, setCompLatLongs] = useState(null);
 
   // const getUser = async () => {
   //   //const jwt = localStorage.getItem("token");
@@ -29,13 +33,34 @@ function App() {
   // };
 
   const getUser = async () => {
-    let response = await axios.get(`http://127.0.0.1:8000/accounts/1/`);
+    let response = await axios.get(`http://127.0.0.1:8000/accounts/3/`);
     console.log(response.data);
     setUser(response.data);
   }
+
+  const getPromotions = async () => {
+    let response = await axios.get(`http://127.0.0.1:8000/promotion/`);
+    console.log(response.data);
+    setPromotions(response.data);
+  }
+
+  const getCompLatLongs = async () => {
+    let response = await axios.get ('http://127.0.0.1:8000/complatlong/');
+    console.log(response.data);
+    setCompLatLongs(response.data);
+  }
+
+  const convertAddress = async (streetAddress, city, state)=>{
+    let address = streetAddress+"%20"+city+"%20"+state;
+    let response = await axios.get(`https://maps.googleapis.com/maps/api/geocode/json?address=${address}&key=${googleAPIKey}`);
+    console.log(response.data);
+    return (response.data.results[0].geometry.location)
+  } /*convertAddress(employee.street_address, employee.city, employee.state)*/
   
   useEffect(async ()=>{
     getUser();
+    getPromotions();
+    getCompLatLongs();
   }, [])
 
   useEffect(async ()=>{
@@ -45,6 +70,20 @@ function App() {
   useEffect(async ()=>{
 
   }, [userCompany, invalidKey]);
+
+  useEffect(async ()=>{
+    if(employeeLatLong == null){
+      if(employee == null){
+        return
+      }else{
+        let latLong = await convertAddress(employee.street_address, employee.city, employee.state);
+        console.log(latLong);
+        setEmployeeLatLong(latLong);
+      }
+    }else{
+      return
+    }
+  }, [employee])
 
   const getUserCompanyByKey = async (companyKey) => {
     let response = await axios.get(`http://127.0.0.1:8000/company/?company_key=${companyKey}`);
@@ -66,7 +105,8 @@ function App() {
     <div className="App">
       <Switch>
         <Route path="/addCompany" render={props => <AddCompanyForm {...props} user={user}/>}/>
-        <Route path="/employee" render={props => <EmployeeHomePage {...props} GoogleMap={MapContainer} employee={employee}/>}/>
+        {!promotions ? (null) : <Route path="/employee" render={props => <EmployeeHomePage {...props} promotions={promotions} GoogleMap={MapContainer} employee={employee} employeeLatLong={employeeLatLong} compLatLongs={compLatLongs}/>}/>}
+        
       </Switch>
     </div>
   );
