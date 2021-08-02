@@ -7,7 +7,7 @@ const mapStyles = {
     height: '35%',
   };
 
-class MapContainer extends Component {
+class CompanyMapContainer extends Component {
     constructor(props) {
       super(props);
   
@@ -29,15 +29,20 @@ class MapContainer extends Component {
     }
   
     render() {
-        if(this.props.employeeLatLong == null){
+        if(this.state.stores == null){
             return(<h1>NOthing</h1>)
         }else{
+            let center = {
+                lat: parseFloat(this.state.stores[0].lat),
+                lng: parseFloat(this.state.stores[0].long)
+            }
+            console.log(center);
             return (
                 <Map
                   google={this.props.google}
                   zoom={8}
                   style={mapStyles}
-                  initialCenter={this.props.employeeLatLong}
+                  initialCenter={center}
                 >
                   {this.displayMarkers()}
                 </Map>
@@ -48,4 +53,4 @@ class MapContainer extends Component {
 
   export default GoogleApiWrapper({
     apiKey: googleAPIKey
-  })(MapContainer);
+  })(CompanyMapContainer);

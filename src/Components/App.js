@@ -2,13 +2,14 @@ import './App.css';
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Switch, Route, Redirect, Link, Router } from "react-router-dom";
-import CompanyProfile from './CompanyProfile/companyProfile';
+import OwnerCompanyProfile from './CompanyProfile/ownerCompanyProfile';
 import RegistrationForm from './AccountForms/registerForm';
 import PromotionForm from './PromotionForm/promotionForm';
 import CreateEmployeeForm from './CreateEmployee/createEmployeeForm';
 import AddCompanyForm from './AddCompany/addCompanyForm';
 import EmployeeHomePage from './EmployeeHomePage/employeeHomePage';
-import MapContainer from './Map/map';
+import CompanyMapContainer from './Map/companyMap'
+import EmployeeMapContainer from './Map/employeeMap';
 import googleAPIKey from '../APIKeys/googleAPIKey';
 
 function App() {
@@ -19,6 +20,7 @@ function App() {
   const [ employeeLatLong, setEmployeeLatLong] = useState(null);
   const [promotions, setPromotions] = useState(null);
   const [compLatLongs, setCompLatLongs] = useState(null);
+  const [ownedCompany, setOwnedCompany] = useState(null);
 
   // const getUser = async () => {
   //   //const jwt = localStorage.getItem("token");
@@ -65,7 +67,16 @@ function App() {
 
   useEffect(async ()=>{
     getEmployeeByUserId(user.id);
+    getOwnedCompany(user);
   }, [user]);
+
+  const getOwnedCompany = async (user) => {
+    if(user.is_owner){
+      let response = await axios.get(`http://127.0.0.1:8000/company/3/?user_id=${user.id}`);
+      console.log(response.data);
+      setOwnedCompany(response.data);
+    }
+  }
 
   useEffect(async ()=>{
 
@@ -105,8 +116,8 @@ function App() {
     <div className="App">
       <Switch>
         <Route path="/addCompany" render={props => <AddCompanyForm {...props} user={user}/>}/>
-        {!promotions ? (null) : <Route path="/employee" render={props => <EmployeeHomePage {...props} promotions={promotions} GoogleMap={MapContainer} employee={employee} employeeLatLong={employeeLatLong} compLatLongs={compLatLongs}/>}/>}
-        
+        {!promotions ? (null) : <Route path="/employee" render={props => <EmployeeHomePage {...props} promotions={promotions} GoogleMap={EmployeeMapContainer} employee={employee} employeeLatLong={employeeLatLong} compLatLongs={compLatLongs}/>}/>}
+        <Route path="/companyProfile" render={props=> <OwnerCompanyProfile {...props} ownedCompany={ownedCompany} CompanyMapContainer={CompanyMapContainer} compLatLongs={compLatLongs} promotions={promotions}/>} />
       </Switch>
     </div>
   );
