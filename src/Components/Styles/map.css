@@ -1,0 +1,120 @@
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+	border: none;
+}
+
+.profile-container {
+    height: 100%;
+}
+
+.company-photo {
+	display: inline-block;
+	margin: 0 auto;
+	position: absolute;
+	right: 25%;
+	top: 30%;
+}
+
+.promotion-container {
+	background-color: rgb(247, 222, 169);
+    margin: 5px;
+    border: solid black 5px;
+    text-align: center;
+	width: 20%;
+	height: 5%;
+	overflow: visible;
+}
+
+.company {
+    background-color: dimgray;
+    margin: 5px;
+    border: solid black 5px;
+    text-align: center;
+	width: 100%;
+	height: 20%;
+	overflow: visible;
+}
+
+.App {
+    background-color: rgb(84, 80, 104);
+    height: 100%;
+}
+
+.employee-map {
+    position: fixed;
+	width: 50%;
+	height: 50%;
+	left: 30%;
+	top: 20%;
+	overflow: visible;
+}
+
+.company-map {
+    position: absolute;
+	width: 50%;
+	height: 75%;
+	left: 30%;
+	top: 40%;
+	overflow: visible;
+}
+
+.promotion-form {
+    width: 80%;
+    border: solid black 2px;
+    margin: 2px;
+}
+
+  input[type=text], select {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+  }
+
+.nav-link {
+	background-color: hsl(216, 65%, 62%);
+	border: 1px solid rgb(0, 0, 0);
+	font-weight: bold;
+  color: black;
+  padding: 10px 10px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+}
+
+.employee-name {
+	color:rgb(180, 180, 180)
+}
+
+.registration-form, .create-employee-form {
+	width: 50%;
+	color: white;
+}
+
+.form {
+	width: 50%;
+}
+
+.add-company-form, .create-employee-form {
+	color: white;
+}
+
+button[type=submit] {
+    width: 50%;
+    background-color: #a8a0d8;
+    color: black;
+    padding: 14px 20px;
+    margin: 8px 0;
+    border: 2px black;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+
+.form-header {
+	color:rgb(129, 124, 151);
+}

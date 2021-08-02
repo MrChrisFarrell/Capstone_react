@@ -3,8 +3,8 @@ import React, { Component } from 'react'
 import googleAPIKey from '../../APIKeys/googleAPIKey'
 
 const mapStyles = {
-    width: '35%',
-    height: '35%',
+    width: '100%',
+    height: '100%',
   };
 
 class CompanyMapContainer extends Component {
@@ -38,14 +38,15 @@ class CompanyMapContainer extends Component {
             }
             console.log(center);
             return (
-                <Map
-                  google={this.props.google}
-                  zoom={8}
-                  style={mapStyles}
-                  initialCenter={center}
-                >
-                  {this.displayMarkers()}
-                </Map>
+                <div className="map"><Map
+                google={this.props.google}
+                zoom={8}
+                style={mapStyles}
+                initialCenter={center}
+              >
+                {this.displayMarkers()}
+              </Map></div>
+                
             );
         }
     }

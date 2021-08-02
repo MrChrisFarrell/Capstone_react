@@ -5,7 +5,7 @@ import useForm from '../UseForm/useForm';
 const AddCompanyForm = (props) => {
     
     const addCompany = async () => {
-        if(props.user){
+        /*if(props.user){
             const company = {
                 name: values.name,
                 company_key: values.company_key,
@@ -24,12 +24,15 @@ const AddCompanyForm = (props) => {
             alert('Added');
     }else{
         return
-    }};
+    }*/
+        window.location.href = "/createEmployee";
+    };
 
     const { values, handleChange, handleSubmit } = useForm(addCompany);
 
     return (
         <div className="add-company-form">
+            <h1 className="form-header">ADD YOUR COMPANY</h1>
             <form onSubmit={handleSubmit}>
                 <label>
                     Company Name:
@@ -42,7 +45,7 @@ const AddCompanyForm = (props) => {
                     />
                 </label>
                 <label>
-                    Unique Company Key:
+                    Create a Unique Company Key:
                     <input
                         type="text"
                         name="company_key"

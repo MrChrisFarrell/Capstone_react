@@ -15,7 +15,7 @@ const PromotionForm = (props) => {
             start_date: moment(startDate).format("yyyy-MM-DD"),
             end_date: moment(endDate).format("yyyy-MM-DD"),
             photo_url: values.photo_url,
-            company: 1
+            company: props.ownedCompany.id
         };
         console.log(promotion);
         let response = await axios.post(`http://127.0.0.1:8000/promotion/`, promotion);
@@ -26,7 +26,7 @@ const PromotionForm = (props) => {
     const { values, handleChange, handleSubmit } = useForm(addPromotion);
 
     return (
-        <div className="registration-form">
+        <div className="promotion-form">
             <form onSubmit={handleSubmit}>
                 <label>
                     Promotion Details:
@@ -45,7 +45,7 @@ const PromotionForm = (props) => {
                 <label>
                     End Date:
                     <DatePicker dateFormat="yyyy-MM-dd" selected={endDate} onChange={(date)=> setEndDate(date)} />
-                </label>
+                </label><br></br>
                 <label>
                     Photo Url:
                     <input
@@ -56,7 +56,7 @@ const PromotionForm = (props) => {
                         required={true}
                     />
                 </label>
-                <button type="submit">Register</button>
+                <button type="submit">Add Promotion</button>
             </form>
         </div>
     );

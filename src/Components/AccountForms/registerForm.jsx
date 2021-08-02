@@ -12,12 +12,20 @@ const RegistrationForm = (props) => {
             is_owner: values.is_owner
         };
         console.log(account);
-        alert('Registered');
+        if(values.is_owner){
+            alert('Registered')
+            window.location.href = "/addCompany";
+        }else{
+            alert('Registered');
+            window.location.href = "/createEmployee";
+        }
+        
     }
 
     return (
         <div className="registration-form">
-            <form onSubmit={handleSubmit}>
+            <h1 className="form-header">REGISTER</h1>
+            <form className="form" onSubmit={handleSubmit}>
                 <label>
                     Username:
                     <input

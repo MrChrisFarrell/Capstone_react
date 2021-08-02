@@ -4,13 +4,17 @@ import axios from "axios";
 import { Switch, Route, Redirect, Link, Router } from "react-router-dom";
 import OwnerCompanyProfile from './CompanyProfile/ownerCompanyProfile';
 import RegistrationForm from './AccountForms/registerForm';
+import LoginForm from './AccountForms/loginForm';
 import PromotionForm from './PromotionForm/promotionForm';
 import CreateEmployeeForm from './CreateEmployee/createEmployeeForm';
 import AddCompanyForm from './AddCompany/addCompanyForm';
 import EmployeeHomePage from './EmployeeHomePage/employeeHomePage';
 import CompanyMapContainer from './Map/companyMap'
 import EmployeeMapContainer from './Map/employeeMap';
+import CompanyProfile from './CompanyProfile/companyProfile';
+import Navigation from './Navbar/navbar';
 import googleAPIKey from '../APIKeys/googleAPIKey';
+import "./Styles/map.css";
 
 function App() {
   const [user, setUser] = useState({});
@@ -21,6 +25,8 @@ function App() {
   const [promotions, setPromotions] = useState(null);
   const [compLatLongs, setCompLatLongs] = useState(null);
   const [ownedCompany, setOwnedCompany] = useState(null);
+  const [selectedCompany, setSelectedCompany] = useState(null);
+  const [isLoggedIn, setIsLoggedIn] = useState(null);
 
   // const getUser = async () => {
   //   //const jwt = localStorage.getItem("token");
@@ -33,6 +39,12 @@ function App() {
   //     console.error("There was an error in the USER GET request");
   //   }
   // };
+
+  const registerUser = async (user) => {
+    let response = await axios.post('http://127.0.0.1:8000/accounts/', user);
+    console.log(response.data);
+    getUser();
+  }
 
   const getUser = async () => {
     let response = await axios.get(`http://127.0.0.1:8000/accounts/3/`);
@@ -47,9 +59,13 @@ function App() {
   }
 
   const getCompLatLongs = async () => {
-    let response = await axios.get ('http://127.0.0.1:8000/complatlong/');
+    let response = await axios.get('http://127.0.0.1:8000/complatlong/');
     console.log(response.data);
     setCompLatLongs(response.data);
+  }
+
+  const deletePromotion = async (promotionId) => {
+    let response = await axios.get(`http://127.0.0.1:8000/promotion/${promotionId}/`);
   }
 
   const convertAddress = async (streetAddress, city, state)=>{
@@ -80,7 +96,7 @@ function App() {
 
   useEffect(async ()=>{
 
-  }, [userCompany, invalidKey]);
+  }, [userCompany, selectedCompany]);
 
   useEffect(async ()=>{
     if(employeeLatLong == null){
@@ -108,16 +124,29 @@ function App() {
     setEmployee(response.data);
   }
 
+  const visitCompanyPage = (companyId) => {
+    setSelectedCompany(companyId);
+    console.log("Selected Company: ", selectedCompany);
+    window.location.href = "/companyProfile";
+  }
+
+
   const changeInvalidKey = (bool) => {
     setInvalidKey(bool);
   }
 
   return (
     <div className="App">
+      <Navigation user={user} isLoggedIn={isLoggedIn}/>
       <Switch>
         <Route path="/addCompany" render={props => <AddCompanyForm {...props} user={user}/>}/>
-        {!promotions ? (null) : <Route path="/employee" render={props => <EmployeeHomePage {...props} promotions={promotions} GoogleMap={EmployeeMapContainer} employee={employee} employeeLatLong={employeeLatLong} compLatLongs={compLatLongs}/>}/>}
-        <Route path="/companyProfile" render={props=> <OwnerCompanyProfile {...props} ownedCompany={ownedCompany} CompanyMapContainer={CompanyMapContainer} compLatLongs={compLatLongs} promotions={promotions}/>} />
+        {!promotions ? (null) : <Route path="/employee" render={props => <EmployeeHomePage {...props} setIsLoggedIn={setIsLoggedIn} visitCompanyPage={visitCompanyPage} promotions={promotions} GoogleMap={EmployeeMapContainer} employee={employee} employeeLatLong={employeeLatLong} compLatLongs={compLatLongs}/>}/>}
+        <Route path="/ownerCompanyProfile" render={props=> <OwnerCompanyProfile {...props} deletePromotion={deletePromotion} ownedCompany={ownedCompany} CompanyMapContainer={CompanyMapContainer} compLatLongs={compLatLongs} promotions={promotions}/>} />
+        <Route path="/companyProfile" render={props=> <CompanyProfile {...props} selectedCompany={selectedCompany} compLatLongs={compLatLongs} promotions={promotions} />} />
+        <Route path="/addPromotion" render={props=> <PromotionForm {...props} ownedCompany={ownedCompany} />} />
+        <Route path="/register" render={props=> <RegistrationForm {...props}  />} />
+        <Route path="/createEmployee" render={props=> <CreateEmployeeForm {...props}  />} />
+        <Route path="/" render={props=> <LoginForm {...props} setIsLoggedIn={setIsLoggedIn} />}/>
       </Switch>
     </div>
   );

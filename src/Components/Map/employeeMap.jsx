@@ -3,9 +3,10 @@ import React, { Component } from 'react'
 import googleAPIKey from '../../APIKeys/googleAPIKey'
 
 const mapStyles = {
-    width: '35%',
-    height: '35%',
+    width: '100%',
+    height: '100%',
   };
+
 
 class EmployeeMapContainer extends Component {
     constructor(props) {
@@ -15,7 +16,6 @@ class EmployeeMapContainer extends Component {
         stores: props.stores
       }
     }
-
   
     displayMarkers = () => {
         console.log(this.state.stores);
@@ -24,7 +24,7 @@ class EmployeeMapContainer extends Component {
          lat: store.lat,
          lng: store.long
        }}
-       onClick={() => console.log(store.company.id)} />
+       onClick={() => this.props.visitCompanyPage(store.company.id)} />
       })
     }
   

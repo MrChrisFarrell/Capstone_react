@@ -5,7 +5,7 @@ import useForm from '../UseForm/useForm';
 const CreateEmployeeForm = (props) => {
     
     const createEmployee = async () => {
-        if(props.userCompany){
+        /*if(props.userCompany){
             const employee = {
                 first_name: values.first_name,
                 last_name: values.last_name,
@@ -15,7 +15,7 @@ const CreateEmployeeForm = (props) => {
                 zip_code: values.zip_code,
                 email: values.email,
                 company: props.userCompany.id,
-                user: 1
+                user: props.user.id
             };
             console.log(employee);
             let response = await axios.post(`http://127.0.0.1:8000/employee/`, employee);
@@ -23,12 +23,15 @@ const CreateEmployeeForm = (props) => {
             alert('Created');
     }else{
         await props.getUserCompanyByKey(values.company_key);
-    }};
+    }*/
+        window.location.href = "/employee";
+    };
 
     const { values, handleChange, handleSubmit } = useForm(createEmployee);
 
     return (
         <div className="create-employee-form">
+            <h1 className="form-header">CREATE YOUR ACCOUNT</h1>
             <form onSubmit={handleSubmit}>
                 <label>
                     First Name:

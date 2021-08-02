@@ -1,38 +1,37 @@
 import React from "react";
 
-const OwnerCompanyProfile = (props) => {
+const CompanyProfile = (props) => {
 
-    if(props.ownedCompany){
-        let store = props.compLatLongs.filter(comp => comp.company.id == props.ownedCompany.id);
+    if(props.selectedCompany){
+        let store = props.compLatLongs.filter(comp => comp.company.id == props.selectedCompany);
         console.log(store);
-        let filteredPromotions = props.promotions.filter(prom => prom.company.id == props.ownedCompany.id);
+        let filteredPromotions = props.promotions.filter(prom => prom.company.id == props.selectedCompany);
         console.log(filteredPromotions);
         const promotions = filteredPromotions.map((promotion)=>(
             <div className="promotion-container">
                 <h4 className="promotion-details">{promotion.details}</h4>
                 <p className="promotion-date">From: {promotion.start_date}</p>
                 <p className="promotion-date">To: {promotion.end_date}</p>
-                <button onClick={()=>props.deletePromotion(promotion.id)}>Delete Promotion</button>
             </div>
         ))
         return (
             <div className="profile-container">
                 <div className="company">
                     <div>
-                        <h1>{props.ownedCompany.name}</h1>
+                        <h1>{store[0].company.name}</h1>
                     </div>
-                    <div className="company-photo">Company Photo: {props.ownedCompany.photo_url}</div>
+                    <div className="company-photo">Company Photo: {store[0].company.photo_url}</div>
                     <div>
-                        <h2>{props.ownedCompany.phone_number}</h2>
-                        <h3>{props.ownedCompany.street_address}</h3>
-                        <h4>{props.ownedCompany.city}, {props.ownedCompany.state} {props.ownedCompany.zip_code}</h4>
+                        <h2>{store[0].company.phone_number}</h2>
+                        <h3>{store[0].company.street_address}</h3>
+                        <h4>{store[0].company.city}, {store[0].company.state} {store[0].company.zip_code}</h4>
                     </div>
                     <div className="company-details">
-                        <p>{props.ownedCompany.details}</p>
+                        <p>{store[0].company.details}</p>
                     </div>
                 </div>
                 <div><h2>Our Current Promotions</h2>{promotions}</div>
-                <div className="company-map"><props.CompanyMapContainer stores={store}/></div>
+                <div ><props.CompanyMapContainer stores={store}/></div>
             </div>
         )
     }else{
@@ -57,4 +56,4 @@ const OwnerCompanyProfile = (props) => {
     }
 }
 
-export default OwnerCompanyProfile;
+export default CompanyProfile;

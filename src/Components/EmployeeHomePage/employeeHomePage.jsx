@@ -4,6 +4,7 @@ const EmployeeHomePage = (props) => {
     const [promotionCompanies, setPromotionCompanies] = useState(null);
     const [stores, setStores] = useState(null);
 
+    props.setIsLoggedIn(true);
 
     if(props.promotions !== null){
         if(promotionCompanies == null){
@@ -59,10 +60,10 @@ const EmployeeHomePage = (props) => {
                     <div className="employee-name">
                         <h1>Hello, {props.employee.first_name}</h1>
                     </div>
-                    <div><h3>Promotions near you</h3>
+                    <div><h3 className="employee-name">Promotions near you</h3>
                         <div>{promotions}</div>
                     </div>
-                    <props.GoogleMap employeeLatLong={props.employeeLatLong} stores={stores}/>
+                    <div className="employee-map"><props.GoogleMap employeeLatLong={props.employeeLatLong} visitCompanyPage={props.visitCompanyPage} stores={stores}/></div>
                 </div>  
             )
         }
