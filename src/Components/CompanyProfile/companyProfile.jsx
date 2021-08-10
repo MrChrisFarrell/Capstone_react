@@ -1,7 +1,6 @@
 import React from "react";
 
 const CompanyProfile = (props) => {
-
     if(props.selectedCompany){
         let store = props.compLatLongs.filter(comp => comp.company.id == props.selectedCompany);
         console.log(store);

@@ -63,7 +63,7 @@ const EmployeeHomePage = (props) => {
                     <div><h3 className="employee-name">Promotions near you</h3>
                         <div>{promotions}</div>
                     </div>
-                    <div className="employee-map"><props.GoogleMap employeeLatLong={props.employeeLatLong} visitCompanyPage={props.visitCompanyPage} stores={stores}/></div>
+                    <div className="employee-map"><props.GoogleMap setSelectedCompany={props.setSelectedCompany} employeeLatLong={props.employeeLatLong} visitCompanyPage={props.visitCompanyPage} stores={stores}/></div>
                 </div>  
             )
         }

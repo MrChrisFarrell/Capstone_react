@@ -1,5 +1,5 @@
 import { Map, GoogleApiWrapper, Marker } from 'google-maps-react';
-import React, { Component } from 'react'
+import React, { useState } from 'react';
 import googleAPIKey from '../../APIKeys/googleAPIKey'
 
 const mapStyles = {
@@ -8,43 +8,49 @@ const mapStyles = {
   };
 
 
-class EmployeeMapContainer extends Component {
-    constructor(props) {
-      super(props);
+const EmployeeMapContainer =(props)=> {
   
-      this.state = {
-        stores: props.stores
-      }
-    }
+  const handleClick = async (companyId) => {
+    debugger;
+    props.visitCompanyPage(companyId);
+  }
   
-    displayMarkers = () => {
-        console.log(this.state.stores);
-      return this.state.stores.map((store, index) => {
+    const displayMarkers = () => {
+        console.log(props.stores);
+      return props.stores.map((store, index) => {
         return <Marker key={index} id={index} position={{
          lat: store.lat,
          lng: store.long
        }}
-       onClick={() => this.props.visitCompanyPage(store.company.id)} />
+       onClick={() => handleClick(store.company.id)} />
       })
     }
+
+    const testMarkers = props.stores.map((store, index) => {
+      return <Marker key={index} id={index} position={{
+        lat: store.lat,
+        lng: store.long
+      }}
+      onClick={() => handleClick(store.company.id)} />
+    })
   
-    render() {
-        if(this.props.employeeLatLong == null){
+  
+        if(props.employeeLatLong == null){
             return(<h1>NOthing</h1>)
         }else{
             return (
                 <Map
-                  google={this.props.google}
+                  google={props.google}
                   zoom={8}
                   style={mapStyles}
-                  initialCenter={this.props.employeeLatLong}
+                  initialCenter={props.employeeLatLong}
                 >
-                  {this.displayMarkers()}
+                  {testMarkers}
                 </Map>
             );
         }
     }
-  }
+  
 
   export default GoogleApiWrapper({
     apiKey: googleAPIKey

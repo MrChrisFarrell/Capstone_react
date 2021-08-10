@@ -124,10 +124,15 @@ function App() {
     setEmployee(response.data);
   }
 
-  const visitCompanyPage = (companyId) => {
+  const visitCompanyPage = async (companyId) => {
+    debugger;
+    console.log("promotions", promotions);
     setSelectedCompany(companyId);
     console.log("Selected Company: ", selectedCompany);
     window.location.href = "/companyProfile";
+    
+    
+    
   }
 
 
@@ -140,7 +145,7 @@ function App() {
       <Navigation user={user} isLoggedIn={isLoggedIn}/>
       <Switch>
         <Route path="/addCompany" render={props => <AddCompanyForm {...props} user={user}/>}/>
-        {!promotions ? (null) : <Route path="/employee" render={props => <EmployeeHomePage {...props} setIsLoggedIn={setIsLoggedIn} visitCompanyPage={visitCompanyPage} promotions={promotions} GoogleMap={EmployeeMapContainer} employee={employee} employeeLatLong={employeeLatLong} compLatLongs={compLatLongs}/>}/>}
+        {!promotions ? (null) : <Route path="/employee" render={props => <EmployeeHomePage {...props} setIsLoggedIn={setIsLoggedIn}  setSelectedCompany={setSelectedCompany} visitCompanyPage={visitCompanyPage} promotions={promotions} GoogleMap={EmployeeMapContainer} employee={employee} employeeLatLong={employeeLatLong} compLatLongs={compLatLongs}/>}/>}
         <Route path="/ownerCompanyProfile" render={props=> <OwnerCompanyProfile {...props} deletePromotion={deletePromotion} ownedCompany={ownedCompany} CompanyMapContainer={CompanyMapContainer} compLatLongs={compLatLongs} promotions={promotions}/>} />
         <Route path="/companyProfile" render={props=> <CompanyProfile {...props} selectedCompany={selectedCompany} compLatLongs={compLatLongs} promotions={promotions} />} />
         <Route path="/addPromotion" render={props=> <PromotionForm {...props} ownedCompany={ownedCompany} />} />

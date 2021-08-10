@@ -3,6 +3,7 @@ import React from "react";
 const OwnerCompanyProfile = (props) => {
 
     if(props.ownedCompany){
+        debugger;
         let store = props.compLatLongs.filter(comp => comp.company.id == props.ownedCompany.id);
         console.log(store);
         let filteredPromotions = props.promotions.filter(prom => prom.company.id == props.ownedCompany.id);
